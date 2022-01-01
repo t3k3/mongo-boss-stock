@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	handlers "github.com/t3k3/mongo-boss-stock/controllers"
+	"github.com/t3k3/mongo-boss-stock/handlers"
 )
 
 func ProductRoute(route fiber.Router) {

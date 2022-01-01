@@ -76,7 +76,7 @@ An API built with Fiber and MongoDB.
     "kdv": 18.0
 }
 
-// All three fields are optional when updating
+// All nine fields are optional when updating
 
 ```
 
@@ -93,5 +93,5 @@ An API built with Fiber and MongoDB.
 
 ## Thanks
 
-[Tutorial](https://dev.to/mikefmeyer/build-a-go-rest-api-with-fiber-and-mongodb-44og)
+[Tutorial](https://dev.to/mikefmeyer/build-a-go-rest-api-with-fiber-and-mongodb-44og) https://dev.to/mikefmeyer/build-a-go-rest-api-with-fiber-and-mongodb-44og
 
