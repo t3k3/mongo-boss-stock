@@ -25,6 +25,8 @@ func setupRoutes(app *fiber.App) {
 
 	routes.ProductRoute(api.Group("/products"))
 	routes.CategoryRoute(api.Group("/categories"))
+	routes.RepairRoute(api.Group("/repairs"))
+
 }
 
 func main() {
