@@ -27,6 +27,7 @@ func setupRoutes(app *fiber.App) {
 	routes.CategoryRoute(api.Group("/categories"))
 	routes.RepairRoute(api.Group("/repairs"))
 	routes.StoreRoute(api.Group("/stores"))
+	routes.CustomerRoute(api.Group("/customers"))
 }
 
 func main() {
@@ -41,6 +42,9 @@ func main() {
 
 	app.Use(cors.New())
 	app.Use(logger.New())
+
+	//Eğer /dashboard endpointe istek gelirse web sayfasından ram, istekler, kullanımlar vs monitör edilebilir.
+	//app.Get("/dashboard", monitor.New())
 
 	config.ConnectDB()
 
