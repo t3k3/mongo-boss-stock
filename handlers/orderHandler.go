@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"math"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -142,12 +144,15 @@ func AddOrder(c *fiber.Ctx) error {
 	}
 	//TODO: Satış yapılan ürünün stoktan düşmesi için
 
-	//m := make(map[string]int)
-	var s1 [10]string
-	for v, p := range order.OrderProducts {
-		s1[v] = p.ID.Hex()
+	//Burada order içindeki OrderProducts nesnelerinin ID.Hex'leri stok düşümü için
+	//Yazdığımız fonksiyona adet sayısının hesaplanmasıyla birlikte gönderiliyor.
+	//Burada local bir http request atılıyor. Best Practice değil ancak şimdilik çalışıyor.
+	//salesQty yapılan satış adedini saklarken stockQty ürünün güncel stoğunu tutmaktadır.
+
+	for _, v := range order.OrderProducts {
+
+		UpdateProductQty(v.ID.Hex(), v.StockQuantity-v.SalesQty)
 	}
-	fmt.Println(s1)
 
 	//TODO: Satış yapılan ürünün stoktan düşmesi için
 
@@ -156,6 +161,27 @@ func AddOrder(c *fiber.Ctx) error {
 		"success": true,
 		"message": "Order inserted successfully",
 	})
+
+}
+func UpdateProductQty(stockQty string, salesQty int) {
+
+	url := "http://localhost:3000/api/products/" + stockQty
+	fmt.Println("URL:>", url)
+
+	data := `{"stock_quantity":` + strconv.Itoa(int(salesQty)) + `}`
+
+	var jsonStr = []byte(data)
+	req, _ := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	defer resp.Body.Close()
 
 }
 
