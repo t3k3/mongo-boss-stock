@@ -5,7 +5,7 @@ An API built with Fiber and MongoDB.
 
 ## Installation
 
-````bash
+```bash
 go mod init
 go get -u github.com/gofiber/fiber/v2
 go get go.mongodb.org/mongo-driver/mongo
