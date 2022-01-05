@@ -3,7 +3,6 @@ package handlers
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"log"
 	"math"
 	"net/http"
@@ -165,8 +164,7 @@ func AddOrder(c *fiber.Ctx) error {
 }
 func UpdateProductQty(stockQty string, salesQty int) {
 
-	url := "http://localhost:3000/api/products/" + stockQty
-	fmt.Println("URL:>", url)
+	url := "http://localhost:3001/api/products/" + stockQty
 
 	data := `{"stock_quantity":` + strconv.Itoa(int(salesQty)) + `}`
 
