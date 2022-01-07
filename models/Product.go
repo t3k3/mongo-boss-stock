@@ -15,5 +15,11 @@ type Product struct {
 	Categories    []Category         `json:"categories,omitempty" bson:"categories,omitempty"`
 	Entry_Price   float64            `json:"entry_price,omitempty" bson:"entry_price,omitempty"` //Alış fiyatı
 	Tax           float64            `json:"kdv,omitempty" bson:"kdv,omitempty"`                 //Vergi oranı
-	SalesQty      int                `json:"salesqty,omitempty" bson:"salesqty,omitempty"`       //Order başına satış adedi
+	SalesQty      int                `json:"salesqty,omitempty" bson:"salesqty,omitempty"`       //Satış per order
+	Brand         string             `json:"brand,omitempty" bson:"brand,omitempty"`
+	Device_model  string             `json:"device_model,omitempty" bson:"device_model,omitempty"` //Alış fiyatı
+	Status        string             `json:"device_status,omitempty" bson:"device_status,omitempty"`
+	Guaranty      string             `json:"device_guaranty,omitempty" bson:"device_guaranty,omitempty"`
+	Color         string             `json:"device_color,omitempty" bson:"device_color,omitempty"`
+	Capacity      string             `json:"device_capacity,omitempty" bson:"device_capacity,omitempty"`
 }
