@@ -10,7 +10,7 @@ type Store struct {
 	Address  string             `json:"adres,omitempty" bson:"adres,omitempty"`
 	City     string             `json:"city,omitempty" bson:"city,omitempty"`
 	Region   string             `json:"region,omitempty" bson:"region,omitempty"`
-	Manager  string             `json:"manager,,omitempty" bson:"manager,omitempty"`
+	Manager  string             `json:"manager,omitempty" bson:"manager,omitempty"`
 	Tel      string             `json:"tel,omitempty" bson:"tel,omitempty"`
 	Mail     string             `json:"mail,omitempty" bson:"mail,omitempty"`
 	Password string             `json:"password,omitempty" bson:"password,omitempty"`

@@ -2,12 +2,17 @@ package handlers
 
 import (
 	"context"
+	"fmt"
+	"image/jpeg"
 	"log"
 	"math"
+	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/nfnt/resize"
 	"github.com/t3k3/mongo-boss-stock/config"
 	"github.com/t3k3/mongo-boss-stock/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -87,6 +92,57 @@ func GetAllProducts(c *fiber.Ctx) error {
 	})
 }
 
+func UploadFile(c *fiber.Ctx) error {
+
+	file, err := c.FormFile("file")
+	// Check for errors:
+
+	filePath := ""
+
+	trimmedFileName := strings.Join(strings.Fields(file.Filename), "")
+
+	if err == nil {
+
+		//Save file inside uploads folder under current working directory:
+		c.SaveFile(file, fmt.Sprintf("./uploads/%s", trimmedFileName))
+
+		filePath = c.BaseURL() + "/static/thumbs/" + trimmedFileName
+
+		//RESİZE START
+		// open "test.jpg"
+		file, err := os.Open("./uploads/" + trimmedFileName)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// decode jpeg into image.Image
+		img, err := jpeg.Decode(file)
+		if err != nil {
+			log.Fatal(err)
+		}
+		file.Close()
+		// resize to width 1000 using Lanczos resampling
+		// and preserve aspect ratio
+		m := resize.Thumbnail(80, 100, img, resize.Lanczos3)
+
+		out, err := os.Create("./uploads/thumbs/" + trimmedFileName)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer out.Close()
+
+		// write new image to file
+		jpeg.Encode(out, m, nil)
+		//RESİZE END
+
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data":    filePath,
+		"success": true,
+		"error":   err,
+	})
+}
+
 func GetProduct(c *fiber.Ctx) error {
 	productCollection := config.MI.DB.Collection("products")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
@@ -132,6 +188,7 @@ func AddProduct(c *fiber.Ctx) error {
 	}
 
 	result, err := productCollection.InsertOne(ctx, product)
+
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"success": false,

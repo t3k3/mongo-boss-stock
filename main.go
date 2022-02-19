@@ -29,6 +29,7 @@ func setupRoutes(app *fiber.App) {
 	routes.StoreRoute(api.Group("/stores"))
 	routes.CustomerRoute(api.Group("/customers"))
 	routes.OrderRoute(api.Group("/orders"))
+	routes.UploadRoute(api.Group("/upload"))
 }
 
 func main() {
@@ -40,6 +41,10 @@ func main() {
 	}
 
 	app := fiber.New()
+
+	app.Static("/static/thumbs", "./uploads/thumbs", fiber.Static{
+		Compress: true,
+	})
 
 	app.Use(cors.New())
 	app.Use(logger.New())

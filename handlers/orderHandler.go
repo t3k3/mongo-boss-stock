@@ -124,6 +124,8 @@ func AddOrder(c *fiber.Ctx) error {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	order := new(models.Order)
 
+	order.CreatedAt = time.Now()
+
 	if err := c.BodyParser(order); err != nil {
 		log.Println(err)
 		return c.Status(400).JSON(fiber.Map{
@@ -150,7 +152,9 @@ func AddOrder(c *fiber.Ctx) error {
 
 	for _, v := range order.OrderProducts {
 
-		UpdateProductQty(v.ID.Hex(), v.StockQuantity-v.SalesQty)
+		UpdateProductQty(v.ID.Hex(), v.StockQuantity-v.CartQuantity)
+		//UpdateProductQty(v.ID.Hex(), v.SalesQty+v.SalesQty)
+
 	}
 
 	//TODO: Satış yapılan ürünün stoktan düşmesi için
