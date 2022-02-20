@@ -178,6 +178,9 @@ func AddProduct(c *fiber.Ctx) error {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	product := new(models.Product)
 
+	product.CreatedAt = time.Now()
+	product.DeletedAt = time.Now()
+
 	if err := c.BodyParser(product); err != nil {
 		log.Println(err)
 		return c.Status(400).JSON(fiber.Map{
