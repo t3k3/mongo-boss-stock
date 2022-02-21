@@ -112,12 +112,14 @@ func UploadFile(c *fiber.Ctx) error {
 		// open "test.jpg"
 		file, err := os.Open("./uploads/" + trimmedFileName)
 		if err != nil {
+
 			log.Fatal(err)
 		}
 
 		// decode jpeg into image.Image
 		img, err := jpeg.Decode(file)
 		if err != nil {
+
 			log.Fatal(err)
 		}
 		file.Close()
@@ -127,6 +129,7 @@ func UploadFile(c *fiber.Ctx) error {
 
 		out, err := os.Create("./uploads/thumbs/" + trimmedFileName)
 		if err != nil {
+
 			log.Fatal(err)
 		}
 		defer out.Close()
