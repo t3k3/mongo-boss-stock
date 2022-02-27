@@ -30,6 +30,7 @@ func setupRoutes(app *fiber.App) {
 	routes.CustomerRoute(api.Group("/customers"))
 	routes.OrderRoute(api.Group("/orders"))
 	routes.UploadRoute(api.Group("/upload"))
+	routes.LoginRoute(api.Group("/login"))
 }
 
 func main() {
